@@ -26,90 +26,156 @@ namespace HomeWork_20230215_01
                 list.Add(product);
             }
 
-            Console.WriteLine($"商品的總價格為 {list.Sum(x => x.Price)} 元");
-            Console.WriteLine($"\n商品的平均價格為 {list.Average(x => x.Price)} 元");
-            Console.WriteLine($"\n商品的總數量為 {list.Sum(x => x.Quantity)} 個");
-            Console.WriteLine($"\n商品的平均數量為 {list.Average(x => x.Quantity)} 個");
-
-            Console.WriteLine($"\n最貴的商品為為 {list.OrderByDescending(x => x.Price).First().Name}");
-            Console.WriteLine($"\n最便宜的商品為 {list.OrderBy(x => x.Price).First().Name}");
-
-            Console.WriteLine($"\n3C類商品的總價為 {list.Where(x => x.Type == "3C").Sum(x => x.Price)} 元");
-            Console.WriteLine($"\n食品及飲料類商品的總價為 {list.Where(x => x.Type == "食品" || x.Type == "飲料").Sum(x => x.Price)} 元");
-
-            Console.WriteLine("\n商品類別為食品，且數量大於100的有");
-            foreach(var i in list.Where(x => x.Type == "食品" && x.Quantity > 100))
-            {
-                Console.WriteLine(i.Name);
-            }
-
             var result =
                 from o in list
                 group o by o.Type into gp
                 select gp;
-            foreach(var t in result)
+
+            while (true)
             {
-                Console.WriteLine($"\n{t.Key}類中，價格高於1000元的有");
-                if(t.Where(x => x.Price > 1000).Count() == 0)
+                Console.WriteLine("輸入想看的題數(1~17)(輸入0離開程式)：");
+                int QN = int.Parse(Console.ReadLine());
+
+                if(QN == 0)
                 {
-                    Console.WriteLine("此類無高於1000元的商品");
+                    break;
                 }
-                else
+                else if(QN == 1)
                 {
-                    foreach (var p in t.Where(x => x.Price > 1000))
+                    Console.WriteLine($"商品的總價格為 {list.Sum(x => x.Price)} 元");
+                }
+                else if(QN == 2)
+                {
+                    Console.WriteLine($"商品的平均價格為 {list.Average(x => x.Price)} 元");
+                }
+                else if (QN == 3)
+                {
+                    Console.WriteLine($"商品的總數量為 {list.Sum(x => x.Quantity)} 個");
+                }
+                else if (QN == 4)
+                {
+                    Console.WriteLine($"商品的平均數量為 {list.Average(x => x.Quantity)} 個");
+                }
+                else if (QN == 5)
+                {
+                    Console.WriteLine($"最貴的商品為為 {list.OrderByDescending(x => x.Price).First().Name}");
+                }
+                else if (QN == 6)
+                {
+                    Console.WriteLine($"最便宜的商品為 {list.OrderBy(x => x.Price).First().Name}");
+                }
+                else if (QN == 7)
+                {
+                    Console.WriteLine($"3C類商品的總價為 {list.Where(x => x.Type == "3C").Sum(x => x.Price)} 元");
+                }
+                else if (QN == 8)
+                {
+                    Console.WriteLine($"食品及飲料類商品的總價為 {list.Where(x => x.Type == "食品" || x.Type == "飲料").Sum(x => x.Price)} 元");
+                }
+                else if (QN == 9)
+                {
+                    Console.WriteLine("商品類別為食品，且數量大於100的有");
+                    foreach (var i in list.Where(x => x.Type == "食品" && x.Quantity > 100))
                     {
-                        Console.WriteLine(p.Name);
+                        Console.WriteLine(i.Name);
                     }
                 }
-            }
-
-            Console.WriteLine();
-            foreach (var t in result)
-            {
-                if(t.Where(x => x.Price > 1000).Count() == 0)
+                else if (QN == 10)
                 {
-                    Console.WriteLine($"{t.Key}類中，沒有價格高於1000元的商品");
+                    foreach (var t in result)
+                    {
+                        Console.WriteLine($"{t.Key}類中，價格高於1000元的有");
+                        if (t.Where(x => x.Price > 1000).Count() == 0)
+                        {
+                            Console.WriteLine("此類無高於1000元的商品");
+                        }
+                        else
+                        {
+                            foreach (var p in t.Where(x => x.Price > 1000))
+                            {
+                                Console.WriteLine(p.Name);
+                            }
+                        }
+                    }
+                }
+                else if (QN == 11)
+                {
+                    foreach (var t in result)
+                    {
+                        if (t.Where(x => x.Price > 1000).Count() == 0)
+                        {
+                            Console.WriteLine($"{t.Key}類中，沒有價格高於1000元的商品");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{t.Key}類中，價格高於1000元的商品價格平均為 {t.Where(x => x.Price > 1000).Average(x => x.Price)} 元");
+                        }
+                    }
+                }
+                else if (QN == 12)
+                {
+                    Console.WriteLine("所有商品由價格從高到低排序為");
+                    foreach (var item in list.OrderByDescending(x => x.Price))
+                    {
+                        Console.WriteLine($"{item.Name}，{item.Price} 元");
+                    }
+                }
+                else if (QN == 13)
+                {
+                    Console.WriteLine("所有商品由數量從低到高排序為");
+                    foreach (var item in list.OrderBy(x => x.Quantity))
+                    {
+                        Console.WriteLine($"{item.Name}，{item.Quantity} 個");
+                    }
+                }
+                else if (QN == 14)
+                {
+                    foreach (var t in result)
+                    {
+                        Console.WriteLine($"{t.Key}類中，最貴的商品是 {t.OrderByDescending(x => x.Price).First().Name}");
+                    }
+                }
+                else if (QN == 15)
+                {
+                    foreach (var t in result)
+                    {
+                        Console.WriteLine($"{t.Key}類中，最便宜的商品是 {t.OrderBy(x => x.Price).First().Name}");
+                    }
+                }
+                else if (QN == 16)
+                {
+                    foreach (var item in list.Where(x => x.Price <= 10000))
+                    {
+                        Console.WriteLine(item.Name);
+                    }
+                }
+                else if (QN == 17)
+                {
+                    while (true)
+                    {
+                        Console.WriteLine("輸入想看的頁數(1~5)(輸入0返回上一頁)：");
+                        int n = int.Parse(Console.ReadLine());
+
+                        if (n == 0)
+                        {
+                            break;
+                        }
+
+                        foreach (var item in list.Skip((n - 1) * 4).Take(4))
+                        {
+                            Console.WriteLine($"{item.Id} {item.Name} {item.Quantity} {item.Price} {item.Type}");
+                        }
+
+                        Console.WriteLine("無此頁");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine($"{t.Key}類中，價格高於1000元的商品價格平均為 {t.Where(x => x.Price > 1000).Average(x => x.Price)} 元");
+                    Console.WriteLine("無此題");
                 }
+
+                Console.WriteLine();
             }
-
-            Console.WriteLine("\n所有商品由價格從高到低排序為");
-            foreach (var item in list.OrderByDescending(x => x.Price))
-            {
-                Console.WriteLine($"{item.Name}，{item.Price} 元");
-            }
-
-            Console.WriteLine("\n所有商品由數量從低到高排序為");
-            foreach (var item in list.OrderBy(x => x.Quantity))
-            {
-                Console.WriteLine($"{item.Name}，{item.Quantity} 個");
-            }
-
-            Console.WriteLine();
-            foreach (var t in result)
-            {
-                Console.WriteLine($"{t.Key}類中，最貴的商品是 {t.OrderByDescending(x => x.Price).First().Name}");
-            }
-
-            Console.WriteLine();
-            foreach (var t in result)
-            {
-                Console.WriteLine($"{t.Key}類中，最便宜的商品是 {t.OrderBy(x => x.Price).First().Name}");
-            }
-
-            Console.WriteLine("\n價格<=10000的商品有");
-            foreach (var item in list.Where(x => x.Price <= 10000))
-            {
-                Console.WriteLine(item.Name);
-            }
-
-            Console.WriteLine("輸入想看的頁數(1~5)(輸入0結束程式)：");
-            int n = int.Parse(Console.ReadLine());
-            
-
             Console.ReadKey();
         }
     }
