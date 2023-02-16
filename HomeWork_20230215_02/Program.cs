@@ -42,7 +42,7 @@ namespace HomeWork_20230215_02
                         }
                     }
 
-                    int b = numbers.Take(4).Intersect(sul).Count() - a;
+                    int b = numbers.Take(sul.Length).Intersect(sul).Count() - a;
 
                     Console.WriteLine(a + "A" + b + "B");
                     if (a == 4)
