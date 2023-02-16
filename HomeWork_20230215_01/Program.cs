@@ -13,7 +13,7 @@ namespace HomeWork_20230215_01
         static void Main(string[] args)
         {
 
-            var reader = new StreamReader(File.OpenRead(@"../product.csv"));
+            var reader = new StreamReader(File.OpenRead(@".//..//..//../product.csv"));
             var list = new List<Product>();
             var title = reader.ReadLine();
             while (!reader.EndOfStream)
