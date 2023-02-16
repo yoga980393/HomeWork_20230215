@@ -40,21 +40,33 @@ namespace HomeWork_20230215_01
 
             var result =
                 from o in list
-                where o.Price > 1000
                 group o by o.Type into gp
                 select gp;
             foreach(var t in result)
             {
                 Console.WriteLine($"\n{t.Key}類中，價格高於1000元的有");
-                foreach(var p in t)
+                int i = 0;
+                foreach(var p in t.Where(x => x.Price > 1000))
                 {
                     Console.WriteLine(p.Name);
+                    i++;
+                }
+                if(i == 0)
+                {
+                    Console.WriteLine("此類無高於1000元的商品");
                 }
             }
 
             foreach (var t in result)
             {
-                Console.WriteLine($"\n{t.Key}類中，價格高於1000元的商品價格平均為 {t.Average(x => x.Price)} 元");
+                if(t.Where(x => x.Price > 1000).Count() == 0)
+                {
+                    Console.WriteLine($"\n{t.Key}類中，沒有價格高於1000元的商品");
+                }
+                else
+                {
+                    Console.WriteLine($"\n{t.Key}類中，價格高於1000元的商品價格平均為 {t.Where(x => x.Price > 1000).Average(x => x.Price)} 元");
+                }
             }
 
             Console.WriteLine("\n所有商品由價格從高到低排序為");
