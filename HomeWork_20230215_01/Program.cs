@@ -1,6 +1,4 @@
-﻿using CsvHelper;
-using CsvHelper.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -14,27 +12,33 @@ namespace HomeWork_20230215_01
     {
         static void Main(string[] args)
         {
-            var reader = new StreamReader(@"../product.csv");
-            var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-            var data = csv.GetRecords<Product>();
-            var list = data.ToList();
+
+            var reader = new StreamReader(File.OpenRead(@"../product.csv"));
+            var list = new List<Product>();
+            var title = reader.ReadLine();
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                var values = line.Split(',');
+
+                var product = new Product();
+                product.setting(values[0], values[1], values[2], values[3], values[4]);
+                list.Add(product);
+            }
 
             Console.WriteLine($"商品的總價格為 {list.Sum(x => x.Price)} 元");
             Console.WriteLine($"\n商品的平均價格為 {list.Average(x => x.Price)} 元");
             Console.WriteLine($"\n商品的總數量為 {list.Sum(x => x.Quantity)} 個");
             Console.WriteLine($"\n商品的平均數量為 {list.Average(x => x.Quantity)} 個");
 
-            var ex = list.OrderByDescending(x => x.Price).First(x => true);
-            Console.WriteLine($"\n最貴的商品為為 {ex.Name}");
-            var ch = list.OrderBy(x => x.Price).First(x => true);
-            Console.WriteLine($"\n最便宜的商品為 {ch.Name}");
+            Console.WriteLine($"\n最貴的商品為為 {list.OrderByDescending(x => x.Price).First().Name}");
+            Console.WriteLine($"\n最便宜的商品為 {list.OrderBy(x => x.Price).First().Name}");
 
             Console.WriteLine($"\n3C類商品的總價為 {list.Where(x => x.Type == "3C").Sum(x => x.Price)} 元");
             Console.WriteLine($"\n食品及飲料類商品的總價為 {list.Where(x => x.Type == "食品" || x.Type == "飲料").Sum(x => x.Price)} 元");
 
             Console.WriteLine("\n商品類別為食品，且數量大於100的有");
-            var list2 = list.Where(x => x.Type == "食品" && x.Quantity > 100);
-            foreach(var i in list2)
+            foreach(var i in list.Where(x => x.Type == "食品" && x.Quantity > 100))
             {
                 Console.WriteLine(i.Name);
             }
@@ -84,18 +88,16 @@ namespace HomeWork_20230215_01
                 Console.WriteLine($"{item.Name}，{item.Quantity} 個");
             }
 
-            //有問題
             Console.WriteLine();
             foreach (var t in result)
             {
-                var temp = t.OrderByDescending(x => x.Price).First(x => true);
-                Console.WriteLine($"{t.Key}類中，最貴的商品是 {temp.Name}");
+                Console.WriteLine($"{t.Key}類中，最貴的商品是 {t.OrderByDescending(x => x.Price).First().Name}");
             }
 
             Console.WriteLine();
             foreach (var t in result)
             {
-                Console.WriteLine($"{t.Key}類中，最便宜的商品是 {t.OrderBy(x => x.Price).First(x => true).Name}");
+                Console.WriteLine($"{t.Key}類中，最便宜的商品是 {t.OrderBy(x => x.Price).First().Name}");
             }
 
             Console.WriteLine("\n價格<=10000的商品有");
@@ -109,11 +111,6 @@ namespace HomeWork_20230215_01
             
 
             Console.ReadKey();
-
-            var re =
-                from r in list
-                where r.Price == list.Max(x => x.Price)
-                select r.Name;
         }
     }
 }
