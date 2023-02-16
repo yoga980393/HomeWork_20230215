@@ -45,15 +45,16 @@ namespace HomeWork_20230215_01
             foreach(var t in result)
             {
                 Console.WriteLine($"\n{t.Key}類中，價格高於1000元的有");
-                int i = 0;
-                foreach(var p in t.Where(x => x.Price > 1000))
-                {
-                    Console.WriteLine(p.Name);
-                    i++;
-                }
-                if(i == 0)
+                if(t.Where(x => x.Price > 1000).Count() == 0)
                 {
                     Console.WriteLine("此類無高於1000元的商品");
+                }
+                else
+                {
+                    foreach (var p in t.Where(x => x.Price > 1000))
+                    {
+                        Console.WriteLine(p.Name);
+                    }
                 }
             }
 
@@ -72,29 +73,25 @@ namespace HomeWork_20230215_01
             Console.WriteLine("\n所有商品由價格從高到低排序為");
             foreach (var item in list.OrderByDescending(x => x.Price))
             {
-                Console.WriteLine(item.Name);
+                Console.WriteLine($"{item.Name}，{item.Price} 元");
             }
 
             Console.WriteLine("\n所有商品由數量從低到高排序為");
             foreach (var item in list.OrderBy(x => x.Quantity))
             {
-                Console.WriteLine(item.Name);
+                Console.WriteLine($"{item.Name}，{item.Quantity} 個");
             }
 
             //有問題
             Console.WriteLine();
-            var result2 =
-                from o in list
-                group o by o.Type into gp
-                select gp;
-            foreach (var t in result2)
+            foreach (var t in result)
             {
                 var temp = t.OrderByDescending(x => x.Price).ToList();
                 Console.WriteLine($"{t.Key}類中，最貴的商品是 {temp[0].Name}");
             }
 
             Console.WriteLine();
-            foreach (var t in result2)
+            foreach (var t in result)
             {
                 var temp = t.OrderBy(x => x.Price).ToList();
                 Console.WriteLine($"{t.Key}類中，最便宜的商品是 {temp[0].Name}");
