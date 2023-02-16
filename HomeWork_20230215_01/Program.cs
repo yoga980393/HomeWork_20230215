@@ -14,7 +14,7 @@ namespace HomeWork_20230215_01
     {
         static void Main(string[] args)
         {
-            var reader = new StreamReader(@"D:\C#\HomeWork_20230215_01\product.csv");
+            var reader = new StreamReader(@"../product.csv");
             var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
             var data = csv.GetRecords<Product>();
             var list = data.ToList();
