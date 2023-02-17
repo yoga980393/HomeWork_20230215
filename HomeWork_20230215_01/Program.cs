@@ -96,6 +96,7 @@ namespace HomeWork_20230215_01
                                 Console.WriteLine(p.Name);
                             }
                         }
+                        Console.WriteLine();
                     }
                 }
                 else if (QN == 11)
@@ -132,18 +133,31 @@ namespace HomeWork_20230215_01
                 {
                     foreach (var t in result)
                     {
-                        Console.WriteLine($"{t.Key}類中，最貴的商品是 {t.OrderByDescending(x => x.Price).First().Name}");
+                        Console.WriteLine($"{t.Key}類中，最貴的商品是");
+                        var pr = t.OrderByDescending(x => x.Price).First().Price;
+                        foreach (var item in t.Where(x => x.Price == pr))
+                        {
+                            Console.WriteLine($"{item.Name}，{item.Price} 元");
+                        }
+                        Console.WriteLine();
                     }
                 }
                 else if (QN == 15)
                 {
                     foreach (var t in result)
                     {
-                        Console.WriteLine($"{t.Key}類中，最便宜的商品是 {t.OrderBy(x => x.Price).First().Name}");
+                        Console.WriteLine($"{t.Key}類中，最便宜的商品是");
+                        var pr = t.OrderBy(x => x.Price).First().Price;
+                        foreach (var item in t.Where(x => x.Price == pr))
+                        {
+                            Console.WriteLine($"{item.Name}，{item.Price} 元");
+                        }
+                        Console.WriteLine();
                     }
                 }
                 else if (QN == 16)
                 {
+                    Console.WriteLine("價格<=10000元的商品是");
                     foreach (var item in list.Where(x => x.Price <= 10000))
                     {
                         Console.WriteLine(item.Name);
@@ -160,13 +174,16 @@ namespace HomeWork_20230215_01
                         {
                             break;
                         }
+                        else if(n > 5)
+                        {
+                            Console.WriteLine("無此頁");
+                            continue;
+                        }
 
                         foreach (var item in list.Skip((n - 1) * 4).Take(4))
                         {
                             Console.WriteLine($"{item.Id} {item.Name} {item.Quantity} {item.Price} {item.Type}");
                         }
-
-                        Console.WriteLine("無此頁");
                     }
                 }
                 else
